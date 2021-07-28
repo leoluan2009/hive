@@ -800,7 +800,7 @@ public class CliDriver {
       console.printInfo(HiveConf.generateMrDeprecationWarning());
     }
 
-    setupConsoleReader(ss);
+    setupConsoleReader();
 
     String line;
     int ret = 0;
@@ -815,6 +815,9 @@ public class CliDriver {
       }
       if (line.trim().startsWith("--")) {
         continue;
+      }
+      if (line.trim().contains("--") && line.trim().endsWith(";")) {
+        line = line.substring(0, line.indexOf("--"));
       }
       if (line.trim().endsWith(";") && !line.trim().endsWith("\\;")) {
         line = prefix + line;
@@ -868,8 +871,8 @@ public class CliDriver {
     });
   }
 
-  protected void setupConsoleReader(CliSessionState ss) throws IOException {
-    reader = new ConsoleReader(ss.in, ss.info);
+  protected void setupConsoleReader() throws IOException {
+    reader = new ConsoleReader();
     reader.setExpandEvents(false);
     reader.setBellEnabled(false);
     for (Completer completer : getCommandCompleter()) {
