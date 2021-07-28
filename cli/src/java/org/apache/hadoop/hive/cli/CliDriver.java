@@ -464,7 +464,7 @@ public class CliDriver {
     while ((line = r.readLine()) != null) {
       // Skipping through comments
       if (! line.startsWith("--")) {
-        qsb.append(line + "\n");
+        qsb.append(line).append("\n");
       }
     }
 
@@ -800,7 +800,7 @@ public class CliDriver {
       console.printInfo(HiveConf.generateMrDeprecationWarning());
     }
 
-    setupConsoleReader();
+    setupConsoleReader(ss);
 
     String line;
     int ret = 0;
@@ -868,8 +868,8 @@ public class CliDriver {
     });
   }
 
-  protected void setupConsoleReader() throws IOException {
-    reader = new ConsoleReader();
+  protected void setupConsoleReader(CliSessionState ss) throws IOException {
+    reader = new ConsoleReader(ss.in, ss.info);
     reader.setExpandEvents(false);
     reader.setBellEnabled(false);
     for (Completer completer : getCommandCompleter()) {

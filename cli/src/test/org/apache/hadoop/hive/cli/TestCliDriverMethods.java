@@ -374,7 +374,7 @@ public class TestCliDriverMethods extends TestCase {
   private static class FakeCliDriver extends CliDriver {
 
     @Override
-    protected void setupConsoleReader() throws IOException {
+    protected void setupConsoleReader(CliSessionState ss) throws IOException {
       reader = new FakeConsoleReader();
     }
 
